@@ -1,6 +1,6 @@
 spring:
   application:
-    name: insta-auth
+    name: auth-service
   data:
     mongodb:
       database: auth
@@ -28,12 +28,13 @@ eureka:
 security:
   basic:
     enable: false
+
   jwt:
     uri: /auth/**
     header: Authorization
     prefix: Bearer
     expiration: 86400
-    secret: JwtSecretKey
+    secret: 5f9f7765e428e9500296fead15b93435
 
   service:
     username: d245ef53-5ad5-4216-9c56-89fe0f8302a0

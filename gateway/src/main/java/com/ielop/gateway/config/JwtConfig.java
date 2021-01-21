@@ -1,4 +1,4 @@
-package com.ielop.auth_service.config;
+package com.ielop.gateway.config;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
