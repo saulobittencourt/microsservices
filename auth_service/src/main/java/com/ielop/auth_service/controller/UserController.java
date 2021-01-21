@@ -28,12 +28,11 @@ import static com.ielop.auth_service.util.Tools.createDir;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/users")
+@RequestMapping("/v1/api/users")
 public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenService jwtTokenService;
-    private final UserRepo userRepo;
 
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthentication> authenticateUser(@Valid @RequestBody Login loginRequest){

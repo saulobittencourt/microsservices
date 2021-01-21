@@ -13,7 +13,7 @@ eureka:
 zuul:
   ignored-services: '*'
   routes:
-    insta-auth:
+    auth-service:
       path: /auth/**
       service-id: auth-service
       sensitive-headers: Cookie,Set-Cookie
@@ -44,7 +44,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 600000
+            timeoutInMilliseconds: 1320000
 
 security:
   basic:

@@ -48,8 +48,8 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new JwtTokenAuthenticationFilter(jwtConfig, jwtTokenService, userService, serviceUsername), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/signin").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").anonymous()
+                .antMatchers(HttpMethod.POST, "/v1/api/users/signin").permitAll()
+                .antMatchers(HttpMethod.POST, "/v1/api/users").anonymous()
                 .anyRequest().authenticated();
     }
 
