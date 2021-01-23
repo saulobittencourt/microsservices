@@ -17,10 +17,17 @@ spring:
         momentsUserChanged:
           destination: moments.user.changed
           contentType: application/json
+  profiles:
+    active: ribbon-only
+  jpa:
+    show-sql: true
 server:
   port: 9000
 
 eureka:
+  instance:
+    appname: auth-service
+    preferIpAddress: true
   client:
     service-url:
       default-zone: http://localhost:8761/eureka
@@ -39,3 +46,10 @@ security:
   service:
     username: d245ef53-5ad5-4216-9c56-89fe0f8302a0
     password: ef919ae4-b893-4969-b782-57978180ad33
+
+auth-service:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8081,localhost:18081,localhost:28081
+    ServerListRefreshInterval: 15000

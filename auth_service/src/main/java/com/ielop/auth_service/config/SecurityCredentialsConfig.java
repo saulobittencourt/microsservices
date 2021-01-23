@@ -2,9 +2,11 @@ package com.ielop.auth_service.config;
 
 import com.ielop.auth_service.model.enums.Role;
 import com.ielop.auth_service.service.JwtTokenService;
+import com.ielop.auth_service.service.MyUserDetailsService;
 import com.ielop.auth_service.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -16,7 +18,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -33,6 +34,10 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    @Qualifier("userDetailsService")
+    private MyUserDetailsService myUserDetailsService;
 
     private String serviceUsername = "d245ef53-5ad5-4216-9c56-89fe0f8302a0";
 
@@ -63,17 +68,12 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
                 .roles(Role.SERVICE.getDescricao());
 
         // Configure DB authentication provider for user accounts
-        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return super.userDetailsService();
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)

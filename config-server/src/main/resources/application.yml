@@ -1,0 +1,28 @@
+info:
+  app:
+    name: config-server
+    description: Servidor de configuração
+
+server:
+  port: ${PORT:8888}
+
+management:
+  security:
+    enabled: false
+
+logging:
+  level:
+    org.springframework.cloud.config: DEBUG
+
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/saulobittencourt/config-repo
+          searchPaths: config-repo
+          username: saulobittencourt
+          password: saulogb123
+        default-label: main
+    bus:
+     enabled: true

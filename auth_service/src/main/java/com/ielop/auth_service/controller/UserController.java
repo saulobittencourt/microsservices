@@ -1,5 +1,6 @@
 package com.ielop.auth_service.controller;
 
+import com.ielop.auth_service.config.RibbonConfiguration;
 import com.ielop.auth_service.model.AuthUserDetails;
 import com.ielop.auth_service.model.Profile;
 import com.ielop.auth_service.model.User;
@@ -11,6 +12,7 @@ import com.ielop.auth_service.repo.UserRepo;
 import com.ielop.auth_service.service.JwtTokenService;
 import com.ielop.auth_service.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +31,7 @@ import static com.ielop.auth_service.util.Tools.createDir;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/v1/api/users")
+@RibbonClient(name = "auth-service", configuration = RibbonConfiguration.class)
 public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;

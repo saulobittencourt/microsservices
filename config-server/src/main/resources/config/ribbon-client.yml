@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: ribbon-client
+
+server:
+  port: ${PORT:8182}
+  
+management:
+  security:
+    enabled: false
+
+ribbon-client:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: http://localhost:8182,http://localhost:8183
+    ServerListRefreshInterval: 15000

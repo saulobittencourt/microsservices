@@ -70,4 +70,11 @@ public class User {
         this.active = true;
         this.roles = new ArrayList<>() {{ add(Role.USER); }};
     }
+
+    public User(String username, String password, Boolean active, List<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.active = active;
+        this.roles = roles;
+    }
 }

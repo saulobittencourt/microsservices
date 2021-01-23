@@ -16,5 +16,5 @@ public class JwtConfig {
 
     private int expiration = 24*60*60;
 
-    private String secret = "5f9f7765e428e9500296fead15b93435";
+    private String secret = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 }
