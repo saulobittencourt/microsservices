@@ -31,7 +31,11 @@ public class UserEventSender {
     }
 
     private void sendUserChangedEvent(UserEvent payload) {
-        Message<UserEvent> message = MessageBuilder.withPayload(payload).setHeader(KafkaHeaders.MESSAGE_KEY, payload.getId()).build();
+        Message<UserEvent> message =
+                MessageBuilder
+                        .withPayload(payload)
+                        .setHeader(KafkaHeaders.MESSAGE_KEY, payload.getId())
+                        .build();
         userEventStream.momentsUserChanged().send(message);
     }
 
