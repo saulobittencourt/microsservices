@@ -9,8 +9,10 @@ import com.ielop.order.repo.OrderRepo;
 import com.ielop.order.payload.OrderRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -18,22 +20,26 @@ public class OrderService {
     private final OrderRepo orderRepo;
     private final OrderEventSender orderEventSender;
 
+    @Transactional
     public Order save(OrderRequest orderRequest){
         Order order = orderRepo.save(convertToOrder(orderRequest));
 
-        // Send message to store telling that there is a new order
-
-        // Send message to user telling the order was generated
-
-        // Send message to origin telling the order data
         orderEventSender.sendOrderCreated(order);
         return order;
     }
 
+    public List<Order> findOrdersByUser(String userId){
+        return orderRepo.findOrderByUser_UserId(userId);
+    }
+
+    public List<Order> findOrdersByStore(String storeId){
+        return orderRepo.findOrderByStore_StoreId(storeId);
+    }
+
     private Order convertToOrder(OrderRequest orderRequest) {
-        BigDecimal total = null;
+        BigDecimal total = new BigDecimal(0);
         for (ProductOrder productOrder: orderRequest.getProducts()) {
-            total = productOrder.getProduct().getPrice().multiply(BigDecimal.valueOf(productOrder.getAmount()));
+            total = total.add(productOrder.getProduct().getPrice().multiply(BigDecimal.valueOf(productOrder.getAmount())));
         }
 
         return Order.builder()

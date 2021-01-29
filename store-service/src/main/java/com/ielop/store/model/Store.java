@@ -35,6 +35,4 @@ public class Store {
     private String imageUrl; //for now store will contain only one image
 
     private List<Product> products;
-
-    private List<Order> orders;
 }
