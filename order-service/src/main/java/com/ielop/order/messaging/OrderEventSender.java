@@ -1,7 +1,7 @@
 package com.ielop.order.messaging;
 
 import com.ielop.order.model.Order;
-import com.ielop.order.payload.OrderEventPayload;
+import com.ielop.order.payload.OrderEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -17,8 +17,8 @@ public class OrderEventSender {
         sendOrderChangedEvent(convertTo(order, OrderEventType.CREATED));
     }
 
-    private void sendOrderChangedEvent(OrderEventPayload payload) {
-        Message<OrderEventPayload> message =
+    private void sendOrderChangedEvent(OrderEvent payload) {
+        Message<OrderEvent> message =
                 MessageBuilder
                         .withPayload(payload)
                         .setHeader(KafkaHeaders.MESSAGE_KEY, payload.getId())
@@ -27,8 +27,8 @@ public class OrderEventSender {
         orderEventStream.momentsOrderChanged().send(message);
     }
 
-    private OrderEventPayload convertTo(Order order, OrderEventType eventType) {
-        return OrderEventPayload.builder()
+    private OrderEvent convertTo(Order order, OrderEventType eventType) {
+        return OrderEvent.builder()
                 .orderEventType(eventType)
                 .id(order.getId())
                 .createdAt(order.getCreatedAt())

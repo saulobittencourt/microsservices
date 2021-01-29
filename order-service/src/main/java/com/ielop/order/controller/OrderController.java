@@ -3,10 +3,12 @@ package com.ielop.order.controller;
 import com.ielop.order.config.RibbonConfiguration;
 import com.ielop.order.model.Order;
 import com.ielop.order.payload.OrderRequest;
+import com.ielop.order.payload.OrderUpdateUpdateStatusRequest;
 import com.ielop.order.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,12 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Order> save(@RequestBody OrderRequest orderRequest){
         return ResponseEntity.ok(orderService.save(orderRequest));
+    }
+
+    @PutMapping
+    @PreAuthorize("hasRole('STORE')")
+    public ResponseEntity<Order> updateOrderStatus(@RequestBody OrderUpdateUpdateStatusRequest orderUpdateUpdateStatusRequest){
+        return ResponseEntity.ok(orderService.updateOrderStatus(orderUpdateUpdateStatusRequest));
     }
 
     @GetMapping("/user/{userId}")

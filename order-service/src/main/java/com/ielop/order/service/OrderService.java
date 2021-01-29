@@ -1,10 +1,12 @@
 package com.ielop.order.service;
 
+import com.ielop.order.exception.ServiceBusinessException;
 import com.ielop.order.messaging.OrderEventSender;
 import com.ielop.order.model.Order;
 import com.ielop.order.model.ProductOrder;
 import com.ielop.order.model.enums.OrderStatus;
 import com.ielop.order.model.enums.PaymentStatus;
+import com.ielop.order.payload.OrderUpdateUpdateStatusRequest;
 import com.ielop.order.repo.OrderRepo;
 import com.ielop.order.payload.OrderRequest;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -50,5 +53,15 @@ public class OrderService {
                 .orderStatus(OrderStatus.WAIT_STORE_START_ORDER)
                 .total(total)
                 .build();
+    }
+
+    public Order updateOrderStatus(OrderUpdateUpdateStatusRequest orderUpdateUpdateStatusRequest){
+        Optional<Order> order = orderRepo.findById(orderUpdateUpdateStatusRequest.getOrderId());
+        if (order.isEmpty()){
+            throw new ServiceBusinessException("Order not found");
+        }
+
+        order.get().setOrderStatus(orderUpdateUpdateStatusRequest.getOrderStatus());
+        return orderRepo.save(order.get());
     }
 }

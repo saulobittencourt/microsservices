@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderEventPayload {
+public class OrderEvent {
     private String id;
     private Instant createdAt;
     private Instant updatedAt;
