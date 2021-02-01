@@ -30,8 +30,8 @@ import static com.ielop.auth_service.util.Tools.createDir;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/v1/api/users")
-@RibbonClient(name = "auth-service", configuration = RibbonConfiguration.class)
+@RequestMapping("/auth")
+//@RibbonClient(name = "auth-service", configuration = RibbonConfiguration.class)
 public class UserController {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
@@ -75,7 +75,7 @@ public class UserController {
         return ResponseEntity.ok(userService.updateProfilePicture(profilePicture, authUserDetails.getId()));
     }
 
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "/find/{username}")
     public ResponseEntity<User> findUserByUsername(@PathVariable String username){
         return ResponseEntity.ok(userService.findByUsername(username).get());
     }
